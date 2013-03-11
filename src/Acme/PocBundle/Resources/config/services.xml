@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="acme_poc.view_handler.json" class="Acme\PocBundle\ViewHandler\JsonViewHandler" public="false">
+            <argument type="service" id="twig" />
+        </service>
+
+        <service id="acme_poc.view_handler" parent="fos_rest.view_handler.default">
+            <call method="registerHandler">
+                <argument>json</argument>
+                <argument type="collection">
+                    <argument type="service" id="acme_poc.view_handler.json" />
+                    <argument>createResponse</argument>
+                </argument>
+            </call>
+        </service>
+    </services>
+</container>

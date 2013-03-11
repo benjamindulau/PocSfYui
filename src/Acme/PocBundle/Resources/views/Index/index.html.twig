@@ -1,0 +1,23 @@
+{% extends 'AcmePocBundle::layout.html.twig' %}
+
+{% block title 'MyAwesomeWebsite - Home' %}
+
+{% block sidebar %}
+    <h2>Sidebar Menu</h2>
+    <div class="container">
+        Sidebar content
+    </div>
+{% endblock sidebar %}
+
+{% block main %}
+    <h2>Profile Settings</h2>
+    <div class="container">
+        Profile settings content
+    </div>
+{% endblock main %}
+
+{% block templates %}
+<script id="photo_item" type="text/x-handlebars-template">
+    <li class="photo"></li>
+</script>
+{% endblock templates %}

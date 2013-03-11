@@ -1,0 +1,22 @@
+#content {
+    overflow: hidden;
+    padding: 10px;
+    min-height: 600px;
+}
+
+#sidebar {
+    float: left;
+    width: 200px;
+    padding: 20px;
+    border: 1px dashed #868686;
+    min-height: 600px;
+}
+
+#main {
+    float: left;
+    max-width: 800px;
+    width: 500px;
+    padding: 20px;
+    border: 1px dashed #868686;
+    min-height: 600px;
+}

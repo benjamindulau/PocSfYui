@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title 'MyAwesomeWebsite' %}</title>
+        <!-- CSS -->
+        {% block stylesheets %}
+            {% stylesheets filter='cssrewrite' output="css/main_*.css"
+               'bundles/acmepoc/css/style.css'
+            %}
+                <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+            {% endstylesheets %}
+        {% endblock stylesheets %}
+
+        <!-- Javascript -->
+        {% block javascripts %}
+            {% javascripts output='js/compiled/main_*.js'
+               'bundles/acmepoc/js/app.js'
+            %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock javascripts %}
+    </head>
+    <body>
+        <div class="body-container">
+            {% block header %}
+                <header>
+                    <h1><a href="{{ path('acme_poc_home') }}">My Awesome Website</a></h1>
+                </header>
+            {% endblock header %}
+
+            {% block body_content %}
+                <div id="content">
+                    <aside id="sidebar">
+                        Sidebar
+                    </aside>
+                    <section id="main">
+                        {% block main %}{% endblock main %}
+                    </section>
+                </div>
+            {% endblock body_content %}
+
+            {% block footer %}
+                <footer>
+                    &copy;{{ ('now')|date('Y') }} My Awesome Website
+                </footer>
+            {% endblock footer %}
+        </div>
+        <script>
+//            YUI().use('app', 'node', function (Y) {
+//                // views
+//                Y.RegisterView = Y.Base.create('registerView', Y.View, [], {
+//                    render: function () {
+//                        var name = this.get('name');
+//                        this.get('container').set('text', 'Register!');
+//                        return this;
+//                    }
+//                });
+//
+//                var app = new Y.App({
+//                    transitions: true,
+//                    serverRouting: true,
+//                    container: '#main-app',
+//                    viewContainer: '#main',
+//                    views: {
+//                        register: {type: 'RegisterView'}
+//                    }
+//                });
+//                var view = new Y.View();
+//
+//                app.route('/register', 'loadContent', function(req, res, next) {
+//                    this.showContent(res.content.node, {view: req.path});
+//                });
+//
+//                app.render().dispatch();
+//            });
+        </script>
+    </body>
+</html>

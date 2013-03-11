@@ -1,0 +1,2 @@
+_poc:
+    resource: "@AcmePocBundle/Resources/config/routing.yml"

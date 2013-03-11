@@ -29,7 +29,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ ]
+#    bundles:        [ ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -63,3 +63,16 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+fos_rest:
+    service:
+        view_handler: acme_poc.view_handler
+    view:
+        formats:
+            json: true
+        templating_formats:
+            html: true
+        mime_types:
+            json: ['application/json', 'application/x-json', 'text/javascript']
+    format_listener:
+        default_priorities: ['html', 'json', '*/*']
