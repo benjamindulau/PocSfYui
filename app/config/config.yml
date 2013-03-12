@@ -75,6 +75,6 @@ fos_rest:
             html: true
         mime_types:
             json: ['application/json', 'application/x-json', 'text/javascript']
-            pjax: ['application/x-pjax']
+            pjax: ['application/x-pjax', 'x-application/content-fragmented']
     format_listener:
         default_priorities: ['html', 'json', 'pjax', '*/*']

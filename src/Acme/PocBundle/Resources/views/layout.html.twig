@@ -54,27 +54,82 @@
             {% endblock footer %}
         </div>
         <script>
-            YUI().use('app', 'node', 'json-parse', function (Y) {
+            YUI.add('cit-loader', function (Y) {
+                Y.CitLoader = {};
+                
+                Y.CitLoader.loadContentFragments = function (req, res, next) {
+                    var url = req.url;
+                    
+                    // If there's an outstanding request, abort it.
+                    if (this._request) {
+                        this._request.abort();
+                    }
+
+                    // Send a request.
+                    this._request = Y.io(url, {
+                        'arguments': {
+                            route: {
+                                req : req,
+                                res : res,
+                                next: next
+                            },
+
+                            url: url
+                        },
+                        context: this,
+                        headers: {'Accept': 'x-application/content-fragmented'},
+                        timeout: this.get('timeout'),
+                        on: {
+                            complete: function (id, ioResponse, details) {
+                                var route   = details.route,
+                                    req     = route.req,
+                                    res     = route.res;
+
+                                // Put the URL requested through `Y.io` on the route's `req` object.
+                                req.ioURL = details.url;
+
+                                // Put the parsed content and `Y.io` response object on the route's
+                                // `res` object.
+                                res.ioResponse = ioResponse;
+
+                                route.next();
+                            },
+                            end     : function () {
+                                this._request = null;
+                            }
+                        }
+                    });
+                }
+            }, '0.0.1', {
+               requires: ['io', 'event']
+            });
+            
+            
+            YUI({
+                debug: true,
+                combine: false,
+                filter: "raw"
+            }).use('app', 'cit-loader', function (Y) {
                 var app = new Y.App({
                     transitions: true,
                     serverRouting: true,
                     container: '#main',
                     viewContainer: '#main'
                 });
-
-//                app.route('/', 'loadContent', function(req, res, next) {
-////                    this.showContent(res.content.node, {view: req.path});
-//                    console.log(res.content.node);
-//                });
-
-                app.route('/profile', 'loadContent', function(req, res, next) {
-//                    this.showContent(res.content.node, {view: req.path});
+                
+                var firstTime = true;
+                
+                app.route('/*', Y.CitLoader.loadContentFragments, function(req, res, next) {
+                    if(firstTime) {
+                        firstTime = false;
+                        return;
+                    }
                     var data = Y.JSON.parse(res.ioResponse.responseText);
-                    Y.Node.one('#main').setHTML(data['main']);
-                    Y.Node.one('#sidebar').setHTML(data['sidebar']);
+                    Y.Node.one('#main').setHTML(data['main']).setStyle('background', 'yellow');
+                    Y.Node.one('#sidebar').setHTML(data['sidebar']).setStyle('background', 'yellow');
                     Y.config.doc.title = data['title'];
                 });
-
+                
                 app.render().dispatch();
             });
         </script>
