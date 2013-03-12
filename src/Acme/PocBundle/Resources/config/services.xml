@@ -5,7 +5,8 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
         <parameter key="acme_poc.menu.builder.class">Acme\PocBundle\Menu\MenuBuilder</parameter>
-        <parameter key="fos_rest.format_negotiator.class">Acme\PocBundle\Util\FormatNegotiator</parameter>
+        <parameter key="acme_poc.view_handler.content_fragmented.class">Acme\PocBundle\ViewHandler\ContentFragmentedViewHandler</parameter>
+        <!--<parameter key="fos_rest.format_negotiator.class">Acme\PocBundle\Util\FormatNegotiator</parameter>-->
     </parameters>
 
     <services>
@@ -25,15 +26,15 @@
             <argument type="service" id="request" />
         </service>
 
-        <service id="acme_poc.view_handler.pjax" class="Acme\PocBundle\ViewHandler\PJaxViewHandler" public="false">
+        <service id="acme_poc.view_handler.content_fragmented" class="%acme_poc.view_handler.content_fragmented.class%" public="false">
             <argument type="service" id="twig" />
         </service>
 
         <service id="acme_poc.view_handler" parent="fos_rest.view_handler.default">
             <call method="registerHandler">
-                <argument>pjax</argument>
+                <argument>content_fragmented</argument>
                 <argument type="collection">
-                    <argument type="service" id="acme_poc.view_handler.pjax" />
+                    <argument type="service" id="acme_poc.view_handler.content_fragmented" />
                     <argument>createResponse</argument>
                 </argument>
             </call>

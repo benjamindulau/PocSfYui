@@ -8,7 +8,7 @@ use FOS\RestBundle\View\ViewHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PJaxViewHandler
+class ContentFragmentedViewHandler
 {
     protected $twig;
 
@@ -26,6 +26,8 @@ class PJaxViewHandler
 
         $blocks = $template->getBlocks();
         $response = array();
+
+
 
         foreach($blocks as $name => $block) {
             if (in_array($name, array('templates', 'javascripts', 'stylesheets'))) {

@@ -70,11 +70,10 @@ fos_rest:
     view:
         formats:
             json: true
-            pjax: true
         templating_formats:
             html: true
         mime_types:
             json: ['application/json', 'application/x-json', 'text/javascript']
-            pjax: ['application/x-pjax', 'x-application/content-fragmented']
+            content_fragmented: ['x-application/content-fragmented']
     format_listener:
-        default_priorities: ['html', 'json', 'pjax', '*/*']
+        default_priorities: ['html', 'json', 'content_fragmented', '*/*']
