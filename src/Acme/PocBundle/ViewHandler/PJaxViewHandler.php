@@ -25,7 +25,7 @@ class PJaxViewHandler
         }
 
         $blocks = $template->getBlocks();
-        $response = [];
+        $response = array();
 
         foreach($blocks as $name => $block) {
             if (in_array($name, array('templates', 'javascripts', 'stylesheets'))) {
@@ -34,7 +34,7 @@ class PJaxViewHandler
 
             if (false !== strpos($name, 'template_')) {
                 if (!isset($response['templates'])) {
-                    $response['templates'] = [];
+                    $response['templates'] = array();
                 }
 
                 $templateName = substr($name, -(strlen($name) - strlen('template_')));
