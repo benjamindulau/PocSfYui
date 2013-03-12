@@ -15,10 +15,11 @@
 
         <!-- Javascript -->
         {% block javascripts %}
+            <script type="text/javascript" src="http://yui.yahooapis.com/3.8.1/build/yui/yui-min.js"></script>
             {% javascripts output='js/compiled/main_*.js'
-               'bundles/acmepoc/js/app.js'
+            'bundles/acmepoc/js/app.js'
             %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
+            <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock javascripts %}
     </head>
@@ -48,33 +49,33 @@
             {% endblock footer %}
         </div>
         <script>
-//            YUI().use('app', 'node', function (Y) {
-//                // views
-//                Y.RegisterView = Y.Base.create('registerView', Y.View, [], {
-//                    render: function () {
-//                        var name = this.get('name');
-//                        this.get('container').set('text', 'Register!');
-//                        return this;
-//                    }
-//                });
-//
-//                var app = new Y.App({
-//                    transitions: true,
-//                    serverRouting: true,
-//                    container: '#main-app',
-//                    viewContainer: '#main',
-//                    views: {
-//                        register: {type: 'RegisterView'}
-//                    }
-//                });
-//                var view = new Y.View();
-//
-//                app.route('/register', 'loadContent', function(req, res, next) {
-//                    this.showContent(res.content.node, {view: req.path});
-//                });
-//
-//                app.render().dispatch();
-//            });
+            YUI().use('app', 'node', function (Y) {
+                // views
+                Y.RegisterView = Y.Base.create('registerView', Y.View, [], {
+                    render: function () {
+                        var name = this.get('name');
+                        this.get('container').set('text', 'Register!');
+                        return this;
+                    }
+                });
+
+                var app = new Y.App({
+                    transitions: true,
+                    serverRouting: true,
+                    container: '#main-app',
+                    viewContainer: '#main',
+                    views: {
+                        register: {type: 'RegisterView'}
+                    }
+                });
+                var view = new Y.View();
+
+                app.route('/register', 'loadContent', function(req, res, next) {
+                    this.showContent(res.content.node, {view: req.path});
+                });
+
+                app.render().dispatch();
+            });
         </script>
     </body>
 </html>

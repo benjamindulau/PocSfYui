@@ -25,11 +25,25 @@ class JsonViewHandler
         }
 
         $blocks = $template->getBlocks();
-        $response = array();
+        $response = [];
 
         foreach($blocks as $name => $block) {
-            $html = $template->renderBlock($name, $view->getData(), $blocks);
-            $response[$name] = $html;
+            if ('templates' == $name) {
+                continue;
+            }
+
+            if (false !== strpos($name, 'template_')) {
+                if (!isset($response['templates'])) {
+                    $response['templates'] = [];
+                }
+
+                $templateName = substr($name, -(strlen($name) - strlen('template_')));
+                $response['templates'][$templateName] = $template->renderBlock($name, $view->getData(), $blocks);
+
+                continue;
+            }
+
+            $response[$name] = $template->renderBlock($name, $view->getData(), $blocks);
         }
 
         return new Response(json_encode($response), Codes::HTTP_OK, $view->getHeaders());
