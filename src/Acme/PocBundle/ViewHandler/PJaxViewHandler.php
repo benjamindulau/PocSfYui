@@ -8,7 +8,7 @@ use FOS\RestBundle\View\ViewHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class JsonViewHandler
+class PJaxViewHandler
 {
     protected $twig;
 
@@ -28,7 +28,7 @@ class JsonViewHandler
         $response = [];
 
         foreach($blocks as $name => $block) {
-            if ('templates' == $name) {
+            if (in_array($name, array('templates', 'javascripts', 'stylesheets'))) {
                 continue;
             }
 
@@ -38,13 +38,15 @@ class JsonViewHandler
                 }
 
                 $templateName = substr($name, -(strlen($name) - strlen('template_')));
-                $response['templates'][$templateName] = $template->renderBlock($name, $view->getData(), $blocks);
+                $response['templates'][$templateName] = trim($template->renderBlock($name, $view->getData(), $blocks));
 
                 continue;
             }
 
-            $response[$name] = $template->renderBlock($name, $view->getData(), $blocks);
+            $response[$name] = trim($template->renderBlock($name, $view->getData(), $blocks));
         }
+
+        $view->setHeader('content-type', 'application/json');
 
         return new Response(json_encode($response), Codes::HTTP_OK, $view->getHeaders());
     }

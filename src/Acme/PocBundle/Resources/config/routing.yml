@@ -1,3 +1,7 @@
 acme_poc_home:
     pattern:  /
     defaults: { _controller: AcmePocBundle:Index:index }
+
+acme_poc_profile:
+    pattern:  /profile
+    defaults: { _controller: AcmePocBundle:Index:profile }

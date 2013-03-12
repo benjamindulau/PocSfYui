@@ -34,7 +34,12 @@
             {% block body_content %}
                 <div id="content">
                     <aside id="sidebar">
-                        Sidebar
+                        {% block sidebar %}
+                            <h2>Sidebar Menu</h2>
+                            <nav>
+                                {{ knp_menu_render('main', {'separator': '|', 'currentAsLink': false}) }}
+                            </nav>
+                        {% endblock sidebar %}
                     </aside>
                     <section id="main">
                         {% block main %}{% endblock main %}
@@ -50,28 +55,21 @@
         </div>
         <script>
             YUI().use('app', 'node', function (Y) {
-                // views
-                Y.RegisterView = Y.Base.create('registerView', Y.View, [], {
-                    render: function () {
-                        var name = this.get('name');
-                        this.get('container').set('text', 'Register!');
-                        return this;
-                    }
-                });
-
                 var app = new Y.App({
                     transitions: true,
                     serverRouting: true,
-                    container: '#main-app',
-                    viewContainer: '#main',
-                    views: {
-                        register: {type: 'RegisterView'}
-                    }
+                    container: '#main',
+                    viewContainer: '#main'
                 });
-                var view = new Y.View();
 
-                app.route('/register', 'loadContent', function(req, res, next) {
-                    this.showContent(res.content.node, {view: req.path});
+//                app.route('/', 'loadContent', function(req, res, next) {
+////                    this.showContent(res.content.node, {view: req.path});
+//                    console.log(res.content.node);
+//                });
+
+                app.route('/profile', 'loadContent', function(req, res, next) {
+//                    this.showContent(res.content.node, {view: req.path});
+                    console.log(res.content.node.title);
                 });
 
                 app.render().dispatch();

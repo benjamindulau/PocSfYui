@@ -14,4 +14,13 @@ class IndexController extends Controller
 
         return $this->handleView($view);
     }
+
+    public function profileAction()
+    {
+        $view = $this->view(array(), 200)
+            ->setTemplate('AcmePocBundle:Index:profile.html.twig')
+        ;
+
+        return $this->handleView($view);
+    }
 }

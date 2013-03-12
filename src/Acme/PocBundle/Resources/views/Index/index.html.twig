@@ -2,48 +2,13 @@
 
 {% block title 'MyAwesomeWebsite - Home' %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {% javascripts output='js/compiled/settings_*.js'
-       'bundles/acmepoc/js/settings.js'
-    %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-{% endblock javascripts %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    {% stylesheets filter='cssrewrite' output="css/settings_*.css"
-       'bundles/acmepoc/css/settings.css'
-    %}
-        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-    {% endstylesheets %}
-{% endblock stylesheets %}
-
 {% block sidebar %}
-    <h2>Sidebar Menu</h2>
-    <div class="container">
-        Sidebar content
-    </div>
+    {{ parent() }}
 {% endblock sidebar %}
 
 {% block main %}
-    <h2>Profile Settings</h2>
+    <h2>Homepage</h2>
     <div class="container">
-        Profile settings content
+        This is the homepage
     </div>
 {% endblock main %}
-
-{% block templates %}
-<script id="photo_item_tpl" type="text/x-handlebars-template">
-    {% block template_photo_item_tpl %}
-        <li class="photo"></li>
-    {% endblock template_photo_item_tpl %}
-</script>
-
-<script id="foo_tpl" type="text/x-handlebars-template">
-    {% block template_foo_tpl %}
-        <div class="foo"></div>
-    {% endblock template_foo_tpl %}
-</script>
-{% endblock templates %}

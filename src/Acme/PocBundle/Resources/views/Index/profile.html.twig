@@ -21,16 +21,13 @@
 {% endblock stylesheets %}
 
 {% block sidebar %}
-    <h2>Sidebar Menu</h2>
-    <div class="container">
-        Sidebar content
-    </div>
+    {{ parent() }}
 {% endblock sidebar %}
 
 {% block main %}
     <h2>Profile Settings</h2>
     <div class="container">
-        Profile settings content
+        This is the profile settings page
     </div>
 {% endblock main %}
 

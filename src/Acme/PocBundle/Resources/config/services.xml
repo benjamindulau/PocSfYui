@@ -3,17 +3,37 @@
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="acme_poc.menu.builder.class">Acme\PocBundle\Menu\MenuBuilder</parameter>
+        <parameter key="fos_rest.format_negotiator.class">Acme\PocBundle\Util\FormatNegotiator</parameter>
+    </parameters>
 
     <services>
-        <service id="acme_poc.view_handler.json" class="Acme\PocBundle\ViewHandler\JsonViewHandler" public="false">
+        <service id="acme_poc.menu.builder" class="%acme_poc.menu.builder.class%">
+            <argument type="service" id="knp_menu.factory" />
+        </service>
+
+        <!-- Main Menu -->
+        <service
+            id="acme_poc.menu.main"
+            class="Knp\Menu\MenuItem"
+            factory-service="acme_poc.menu.builder"
+            factory-method="createMainMenu"
+            scope="request"
+        >
+            <tag name="knp_menu.menu" alias="main" />
+            <argument type="service" id="request" />
+        </service>
+
+        <service id="acme_poc.view_handler.pjax" class="Acme\PocBundle\ViewHandler\PJaxViewHandler" public="false">
             <argument type="service" id="twig" />
         </service>
 
         <service id="acme_poc.view_handler" parent="fos_rest.view_handler.default">
             <call method="registerHandler">
-                <argument>json</argument>
+                <argument>pjax</argument>
                 <argument type="collection">
-                    <argument type="service" id="acme_poc.view_handler.json" />
+                    <argument type="service" id="acme_poc.view_handler.pjax" />
                     <argument>createResponse</argument>
                 </argument>
             </call>

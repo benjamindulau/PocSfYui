@@ -70,9 +70,11 @@ fos_rest:
     view:
         formats:
             json: true
+            pjax: true
         templating_formats:
             html: true
         mime_types:
             json: ['application/json', 'application/x-json', 'text/javascript']
+            pjax: ['application/x-pjax']
     format_listener:
-        default_priorities: ['html', 'json', '*/*']
+        default_priorities: ['html', 'json', 'pjax', '*/*']
