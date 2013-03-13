@@ -5,3 +5,7 @@ acme_poc_home:
 acme_poc_profile:
     pattern:  /profile
     defaults: { _controller: AcmePocBundle:Index:profile }
+
+acme_poc_photos:
+    pattern:  /photos
+    defaults: { _controller: AcmePocBundle:Index:photos }

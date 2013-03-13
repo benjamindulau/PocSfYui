@@ -38,6 +38,14 @@ class MenuBuilder
             )
         ));
 
+        $menu->addChild('photos', array(
+            'route' => 'acme_poc_photos',
+            'label' => 'Photos',
+            'attributes' => array(
+                'id' => 'menu-photos'
+            )
+        ));
+
         return $menu;
     }
 }

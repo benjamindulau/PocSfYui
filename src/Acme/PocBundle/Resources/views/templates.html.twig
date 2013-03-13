@@ -1,0 +1,8 @@
+{% macro photo_item(index, photo, engine) %}
+    {% set url = ('js' == engine|default('')) ? '{{url}}' : photo.url %}
+    {% set title = ('js' == engine|default('')) ? '{{title}}' : photo.title %}
+    {% set index = ('js' == engine|default('')) ? '{{index}}' : index %}
+    <li data-id="photo-{{ index }}">
+        <img src="{{ url }}" alt="{{ title }}" />
+    </li>
+{% endmacro %}

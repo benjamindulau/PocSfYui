@@ -1,0 +1,35 @@
+{% extends 'AcmePocBundle::layout.html.twig' %}
+
+{% block title 'MyAwesomeWebsite - Photos' %}
+
+{% block sidebar %}
+    {{ parent() }}
+{% endblock sidebar %}
+
+{% block main %}
+    {% import 'AcmePocBundle::templates.html.twig' as tpl %}
+    <h2>Photos</h2>
+    <div class="container">
+        <ul class="photo-container">
+            {% for photo in photos %}
+                {{ tpl.photo_item(loop.index0, photo) }}
+            {% endfor %}
+        </ul>
+    </div>
+    <style type="text/css">
+        .photo-container {list-style: none; padding: 0; margin: 0;}
+        .photo-container li {display: inline-block; float: left; padding: 0; margin: 0 2px;}
+        .photo-container li img {width: 140px; height: 140px;}
+    </style>
+{% endblock main %}
+
+{% block templates %}
+{% autoescape 'js' %}
+<script id="photo_item_tpl" type="text/x-handlebars-template">
+    {% block template_photo_item_tpl %}
+        {% import 'AcmePocBundle::templates.html.twig' as tpl %}
+        {{ tpl.photo_item(null, null, 'js') }}
+    {% endblock template_photo_item_tpl %}
+</script>
+{% endautoescape %}
+{% endblock templates %}

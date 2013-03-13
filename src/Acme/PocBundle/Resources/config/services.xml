@@ -7,6 +7,7 @@
         <parameter key="acme_poc.menu.builder.class">Acme\PocBundle\Menu\MenuBuilder</parameter>
         <parameter key="acme_poc.view_handler.content_fragmented.class">Acme\PocBundle\ViewHandler\ContentFragmentedViewHandler</parameter>
         <!--<parameter key="fos_rest.format_negotiator.class">Acme\PocBundle\Util\FormatNegotiator</parameter>-->
+        <!--<parameter key="twig.class">Acme\PocBundle\Twig\Environment</parameter>-->
     </parameters>
 
     <services>
