@@ -10,6 +10,7 @@
     {% import 'AcmePocBundle::templates.html.twig' as tpl %}
     <h2>Photos</h2>
     <div class="container">
+        <button id="add-photo">Add photo</button>
         <ul class="photo-container">
             {% for photo in photos %}
                 {{ tpl.photo_item(loop.index0, photo) }}
