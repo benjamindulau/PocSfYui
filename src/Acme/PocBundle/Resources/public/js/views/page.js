@@ -16,6 +16,7 @@ Page2colLeftView = Y.Base.create('page2colLeftView', Y.POC.BasePageView, [], {
         this.set('main', new Y.POC.MainView());
         this.set('footer', new Y.POC.FooterView());
 
+        // Hack: without these calls, views don't get initialized, weird stuff
         this.get('header').get('container');
         this.get('sidebar').get('container');
         this.get('main').get('container');
