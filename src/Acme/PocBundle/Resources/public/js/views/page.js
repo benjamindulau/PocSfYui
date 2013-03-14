@@ -16,7 +16,10 @@ Page2colLeftView = Y.Base.create('page2colLeftView', Y.POC.BasePageView, [], {
         this.set('main', new Y.POC.MainView());
         this.set('footer', new Y.POC.FooterView());
 
-        // Hack: without these calls, views don't get initialized, weird stuff
+        // TODO: maybe find something else than this lovely hack :p
+        // without these calls, views don't get initialized, weird stuff
+        // Note that views get correctly initialized when calling render() on them, but
+        // we can't do that since we don't want to render the views the first time (rendered by the server)
         this.get('header').get('container');
         this.get('sidebar').get('container');
         this.get('main').get('container');
