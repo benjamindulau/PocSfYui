@@ -20,6 +20,17 @@ AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
         //data.fragments[':id'] = htmlContent
         var data = Y.JSON.parse(res.ioResponse.responseText);
         var node = null;
+        
+        Y.config.doc.title = data['title'];
+        this.showView('page', {
+            main: data.fragments['main'],
+            sidebar: data.fragments['sidebar']
+        }, {
+            update: true,
+            render: true
+        });
+        
+        return;
         var container = this.get('container');
         
         for (var name in data.fragments) {
@@ -33,7 +44,7 @@ AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
             }
         }
         
-        Y.config.doc.title = data['title'];
+        
     }
 
 }, {
