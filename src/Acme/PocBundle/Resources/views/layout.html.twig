@@ -62,23 +62,29 @@
         </script>
         <script>
             YUI().use('poc-app', 'poc-io', function (Y) {
-//                var app;
-//
-//                // create application
-//                app = new Y.POC.App({
-//                    transitions: true,
-//                    serverRouting: true,
-//                    container: '#main',
-//                    viewContainer: '#main'
-//                });
-//
-//                // Setup routes.
-//                Y.Array.each(app.namedRoutes, function (route, i) {
-//                    app.route(routes[route.name].path, Y.PocIo.loadContentFragments, route.callbacks);
-//                    app.get('routes')[i].name = route.name;
-//                });
-//
-//                app.render();
+                var app, routes;
+
+                routes = {
+                    home: { path: '/' },
+                    profile: { path: '/profile' },
+                    photos: { path: '/photos' }
+                };
+
+                // create application
+                app = new Y.POC.App({
+                    transitions: true,
+                    serverRouting: true,
+                    container: '#main',
+                    viewContainer: '#main'
+                });
+
+                // Setup routes.
+                Y.Array.each(app.namedRoutes, function (route, i) {
+                    app.route(routes[route.name].path, Y.PocIo.loadContentFragments, route.callbacks);
+                    app.get('routes')[i].name = route.name;
+                });
+
+                app.render();
             });
         </script>
         {% block templates %}{% endblock templates %}

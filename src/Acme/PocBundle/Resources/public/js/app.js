@@ -7,8 +7,8 @@ AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
 
     namedRoutes: [
         {name: 'home', callbacks: 'handleFragments'},
-        {name: 'profile', callbacks: null},
-        {name: 'photos', callbacks: null}
+        {name: 'profile', callbacks: 'handleFragments'},
+        {name: 'photos', callbacks: 'handleFragments'}
     ],
 
     views: {
