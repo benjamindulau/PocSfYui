@@ -3,7 +3,7 @@ YUI.add('poc-app', function (Y) {
 var POC = Y.POC,
     AcmePoc;
 
-AcmePoc = Y.Base.Create('acmePoc', Y.App, [], {
+AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
 
     namedRoutes: [
         {name: 'home', callbacks: 'handleFragments'},
