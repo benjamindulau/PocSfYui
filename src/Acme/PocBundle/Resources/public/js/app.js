@@ -16,10 +16,22 @@ AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
     },
 
     handleFragments: function(req, res, next) {
+        //data should be object with this structure
+        //data.fragments[':id'] = htmlContent
         var data = Y.JSON.parse(res.ioResponse.responseText);
-
-        Y.Node.one('#main').setHTML(data['main']).setStyle('background', 'yellow');
-        Y.Node.one('#sidebar').setHTML(data['sidebar']).setStyle('background', 'yellow');
+        var node = null;
+        
+        for (var name in data.fragments) {
+            node = Y.Node.one('#' + name);
+            
+            if(node) {
+                node.setHTML(data.fragments[name]).setStyle('background', 'yellow');
+            }
+            else {
+                Y.log("Fragments received, '#" + name + "' elements isn't defined")
+            }
+        }
+        
         Y.config.doc.title = data['title'];
     }
 
