@@ -25,9 +25,10 @@ class ContentFragmentedViewHandler
         }
 
         $blocks = $template->getBlocks();
-        $response = array();
-
-
+        $response = array(
+            'fragments' => array(),
+            'templates' => array(),
+        );
 
         foreach($blocks as $name => $block) {
             if (in_array($name, array('templates', 'javascripts', 'stylesheets'))) {
@@ -35,17 +36,13 @@ class ContentFragmentedViewHandler
             }
 
             if (false !== strpos($name, 'template_')) {
-                if (!isset($response['templates'])) {
-                    $response['templates'] = array();
-                }
-
                 $templateName = substr($name, -(strlen($name) - strlen('template_')));
                 $response['templates'][$templateName] = trim($template->renderBlock($name, $view->getData(), $blocks));
 
                 continue;
             }
 
-            $response[$name] = trim($template->renderBlock($name, $view->getData(), $blocks));
+            $response['fragments'][$name] = trim($template->renderBlock($name, $view->getData(), $blocks));
         }
 
         $view->setHeader('content-type', 'application/json');
