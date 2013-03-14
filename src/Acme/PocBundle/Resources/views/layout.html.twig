@@ -15,21 +15,19 @@
 
         <!-- Javascript -->
         {% block javascripts %}
-            {#<script type="text/javascript" src="{{ asset('bundles/acmepoc/js/config.js') }}"></script>#}
         {% endblock javascripts %}
     </head>
     <body>
-        <div class="body-container" id="app-container">
+        <div class="body-container" id="app">
             {% block header %}
-                <header>
+                <header id="header">
                     <h1><a href="{{ path('acme_poc_home') }}">My Awesome Website</a></h1>
                 </header>
             {% endblock header %}
 
-            <div id="app">
             {% block body_content %}
                 <div id="content">
-                    <aside id="sidebar" data-view="sidebar">
+                    <aside id="sidebar">
                         {% block sidebar %}
                             <h2>Sidebar Menu</h2>
                             <nav>
@@ -38,16 +36,15 @@
                         {% endblock sidebar %}
                         <button>Test</button>
                     </aside>
-                    <section id="main" data-view="main">
+                    <section id="main">
                         {% block main %}{% endblock main %}
                         <button>Test</button>
                     </section>
                 </div>
             {% endblock body_content %}
-            </div>
 
             {% block footer %}
-                <footer>
+                <footer id="footer">
                     &copy;{{ ('now')|date('Y') }} My Awesome Website
                 </footer>
             {% endblock footer %}
@@ -66,6 +63,22 @@
         </script>
         <script>
             YUI().use('poc-app', 'poc-io', function (Y) {
+                Y.HeaderView = Y.Base.create('headerView', Y.View, [], {}, {
+                    ATTRS: {
+                        container: {
+                            valueFn: function() { return Y.Node.one('#header'); }
+                        }
+                    }
+                });
+
+                Y.FooterView = Y.Base.create('footerView', Y.View, [], {}, {
+                    ATTRS: {
+                        container: {
+                            valueFn: function() { return Y.Node.one('#footer'); }
+                        }
+                    }
+                });
+
                 Y.MainView = Y.Base.create('mainView', Y.View, [], {
                     events: {
                         'button': {click: 'handleButtonClick'}
@@ -98,26 +111,21 @@
                     }
                 });
 
-
                 Y.PageView = Y.Base.create('pageView', Y.View, [], {
                     initializer: function () {
-                        this.mainView = new Y.MainView();
-                        this.sidebarView = new Y.SidebarView();
-
-                        this.mainView.get('container');
-                        this.sidebarView.get('container');
-
-                        // This will cause the sub-views' custom events to bubble up to here.
-//                        this.mainView.addTarget(this);
-//                        this.sidebarView.addTarget(this);
+                        this.after(['headerChange', 'sidebarChange', 'mainChange', 'footerChange'], this.render, this);
                     },
 
-                    destructor: function () {
-                        this.mainView.destroy();
-                        this.sidebarView.destroy();
+                    render: function () {
+                        var container = this.get('container');
 
-                        delete this.mainView;
-                        delete this.sidebarView;
+                        container.get('children').remove();
+                        container.append(this.get('header').get('container'));
+                        container.append(this.get('sidebar').get('container'));
+                        container.append(this.get('main').get('container'));
+                        container.append(this.get('footer').get('container'));
+
+                        return this;
                     }
                 }, {
                     ATTRS: {
@@ -145,9 +153,14 @@
 
                 // views
                 app.views = {
-                    page: {type: Y.PageView},
+                    header: {type: Y.HeaderView},
                     main: {type: Y.MainView},
-                    sidebar: {type: Y.SidebarView}
+                    sidebar: {type: Y.SidebarView},
+                    page: {
+                        type: Y.PageView,
+                        preserve: true
+                    },
+                    footer: {type: Y.FooterView}
                 };
 
                 // Setup routes.
@@ -156,10 +169,16 @@
                     app.get('routes')[i].name = route.name;
                 });
 
-                app
-                    .showView('page', null, {render: false})
-                    .render()
-                ;
+                app.showView('page', {
+                    header: app.createView('header'),
+                    sidebar: app.createView('sidebar'),
+                    main: app.createView('main'),
+                    footer: app.createView('footer')
+                }, {
+                    update: true
+                });
+
+                app.render();
             });
         </script>
         {% block templates %}{% endblock templates %}
