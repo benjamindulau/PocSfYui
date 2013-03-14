@@ -30,19 +30,38 @@ class ContentFragmentedViewHandler
             'templates' => array(),
         );
 
+        $compileBlock = function($name, $data, $blocks) use ($template) {
+            return trim($template->renderBlock($name, $data, $blocks));
+        };
+
         foreach($blocks as $name => $block) {
+//            TODO: ideally, exposed blocks should be configured by the developer, something like:
+//            acme_yui_app:
+//                exposed_blocks:
+//                    root: ['title'],
+//                    fragments: ['sidebar', 'main'],
+//                    templates: ['templates']
+//
+//            With some default behaviour, (i.e 'title' and 'fragments' being mandatory)
+
             if (in_array($name, array('templates', 'javascripts', 'stylesheets'))) {
+                continue;
+            }
+
+            if ('title' == $name) {
+                $response['title'] = $compileBlock($name, $view->getData(), $blocks);
+
                 continue;
             }
 
             if (false !== strpos($name, 'template_')) {
                 $templateName = substr($name, -(strlen($name) - strlen('template_')));
-                $response['templates'][$templateName] = trim($template->renderBlock($name, $view->getData(), $blocks));
+                $response['templates'][$templateName] = $compileBlock($name, $view->getData(), $blocks);
 
                 continue;
             }
 
-            $response['fragments'][$name] = trim($template->renderBlock($name, $view->getData(), $blocks));
+            $response['fragments'][$name] = $compileBlock($name, $view->getData(), $blocks);
         }
 
         $view->setHeader('content-type', 'application/json');
