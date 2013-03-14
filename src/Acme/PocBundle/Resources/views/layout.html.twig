@@ -22,6 +22,7 @@
             {% block header %}
                 <header id="header">
                     <h1><a href="{{ path('acme_poc_home') }}">My Awesome Website</a></h1>
+                    <button>Test</button>
                 </header>
             {% endblock header %}
 
@@ -46,6 +47,7 @@
             {% block footer %}
                 <footer id="footer">
                     &copy;{{ ('now')|date('Y') }} My Awesome Website
+                    <button>Test</button>
                 </footer>
             {% endblock footer %}
         </div>
@@ -62,79 +64,7 @@
             YUI.applyConfig(AcmePoc.YuiConfig);
         </script>
         <script>
-            YUI().use('poc-app', 'poc-io', function (Y) {
-                Y.HeaderView = Y.Base.create('headerView', Y.View, [], {}, {
-                    ATTRS: {
-                        container: {
-                            valueFn: function() { return Y.Node.one('#header'); }
-                        }
-                    }
-                });
-
-                Y.FooterView = Y.Base.create('footerView', Y.View, [], {}, {
-                    ATTRS: {
-                        container: {
-                            valueFn: function() { return Y.Node.one('#footer'); }
-                        }
-                    }
-                });
-
-                Y.MainView = Y.Base.create('mainView', Y.View, [], {
-                    events: {
-                        'button': {click: 'handleButtonClick'}
-                    },
-
-                    handleButtonClick: function (e) {
-                        alert('Main view!');
-                    }
-                }, {
-                    ATTRS: {
-                        container: {
-                            valueFn: function() { return Y.Node.one('#main'); }
-                        }
-                    }
-                });
-
-                Y.SidebarView = Y.Base.create('sidebarView', Y.View, [], {
-                    events: {
-                        'button': {click: 'handleButtonClick'}
-                    },
-
-                    handleButtonClick: function (e) {
-                        alert('Sidebar view!');
-                    }
-                }, {
-                    ATTRS: {
-                        container: {
-                            valueFn: function() { return Y.Node.one('#sidebar'); }
-                        }
-                    }
-                });
-
-                Y.PageView = Y.Base.create('pageView', Y.View, [], {
-                    initializer: function () {
-                        this.after(['headerChange', 'sidebarChange', 'mainChange', 'footerChange'], this.render, this);
-                    },
-
-                    render: function () {
-                        var container = this.get('container');
-
-                        container.get('children').remove();
-                        container.append(this.get('header').get('container'));
-                        container.append(this.get('sidebar').get('container'));
-                        container.append(this.get('main').get('container'));
-                        container.append(this.get('footer').get('container'));
-
-                        return this;
-                    }
-                }, {
-                    ATTRS: {
-                        container: {
-                            valueFn: function() { return Y.Node.one('#content'); }
-                        }
-                    }
-                });
-
+            YUI().use('poc-app', 'poc-page-view', 'poc-io', function (Y) {
                 var app, routes;
 
                 //TODO created by server
@@ -153,14 +83,10 @@
 
                 // views
                 app.views = {
-                    header: {type: Y.HeaderView},
-                    main: {type: Y.MainView},
-                    sidebar: {type: Y.SidebarView},
                     page: {
-                        type: Y.PageView,
+                        type: 'POC.Page2colLeftView',
                         preserve: true
-                    },
-                    footer: {type: Y.FooterView}
+                    }
                 };
 
                 // Setup routes.
@@ -169,13 +95,9 @@
                     app.get('routes')[i].name = route.name;
                 });
 
-                app.showView('page', {
-                    header: app.createView('header'),
-                    sidebar: app.createView('sidebar'),
-                    main: app.createView('main'),
-                    footer: app.createView('footer')
-                }, {
-                    update: true
+                app.showView('page', null, {
+                    update: false,
+                    render: false
                 });
 
                 app.render();
