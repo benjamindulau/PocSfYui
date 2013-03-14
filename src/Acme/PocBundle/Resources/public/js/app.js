@@ -20,9 +20,10 @@ AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
         //data.fragments[':id'] = htmlContent
         var data = Y.JSON.parse(res.ioResponse.responseText);
         var node = null;
+        var container = this.get('container');
         
         for (var name in data.fragments) {
-            node = Y.Node.one('#' + name);
+            node = container.one('#' + name);
             
             if(node) {
                 node.setHTML(data.fragments[name]).setStyle('background', 'yellow');
