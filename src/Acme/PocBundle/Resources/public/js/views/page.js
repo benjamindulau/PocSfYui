@@ -11,29 +11,24 @@ Y.namespace('POC').BasePageView = BasePageView;
 
 Page2colLeftView = Y.Base.create('page2colLeftView', Y.POC.BasePageView, [], {
     initializer: function (config) {
-        this.set('header', new Y.POC.HeaderView());
-        this.set('sidebar', new Y.POC.SidebarView());
-        this.set('main', new Y.POC.MainView());
-        this.set('footer', new Y.POC.FooterView());
-
-        // TODO: maybe find something else than this lovely hack :p
-        // without these calls, views don't get initialized, weird stuff
-        // Note that views get correctly initialized when calling render() on them, but
-        // we can't do that since we don't want to render the views the first time (rendered by the server)
-        this.get('header').get('container');
-        this.get('sidebar').get('container');
-        this.get('main').get('container');
-        this.get('footer').get('container');
+        this.fragmentViews = {};
+        this.fragmentViews.sidebar = new Y.POC.SidebarView();
+        this.fragmentViews.main = new Y.POC.MainView();
+        
+        //IMHO, Something is missing... 
+        this.fragmentViews.sidebar.attachEvents();
+        this.fragmentViews.main.attachEvents();
     },
 
     render: function () {
-        var container = this.get('container');
-
-        container.get('children').remove();
-        container.append(this.get('header').get('container'));
-        container.append(this.get('sidebar').get('container'));
-        container.append(this.get('main').get('container'));
-        container.append(this.get('footer').get('container'));
+        var fragments = this.get('fragments');
+        var fragmentViews = this.fragmentViews;
+        
+        Y.Object.each(fragments, function(value, name) {
+            if(fragmentViews.hasOwnProperty(name)) {
+                fragmentViews[name].get('container').setHTML(value).setStyle('background', 'yellow');
+            }
+        });
 
         return this;
     }

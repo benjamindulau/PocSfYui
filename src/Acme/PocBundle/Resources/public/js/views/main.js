@@ -5,11 +5,11 @@ var POC = Y.POC,
 
 MainView = Y.Base.create('mainView', Y.View, [], {
     events: {
-        'button': {click: 'handleButtonClick'}
+        'button.info': {click: 'handleButtonClick'}
     },
 
     handleButtonClick: function (e) {
-        alert('Main view!');
+        alert('Main view! from page: ' + e.currentTarget.getData('info'));
     }
 }, {
     ATTRS: {

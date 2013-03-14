@@ -11,6 +11,7 @@
     <h2>Photos</h2>
     <div class="container">
         <button id="add-photo">Add photo</button>
+        <button class="info" data-info="photo">Say Hello</button>
         <ul class="photo-container">
             {% for photo in photos %}
                 {{ tpl.photo_item(loop.index0, photo) }}
