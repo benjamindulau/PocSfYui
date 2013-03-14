@@ -104,6 +104,9 @@
                         this.mainView = new Y.MainView();
                         this.sidebarView = new Y.SidebarView();
 
+                        this.mainView.get('container');
+                        this.sidebarView.get('container');
+
                         // This will cause the sub-views' custom events to bubble up to here.
 //                        this.mainView.addTarget(this);
 //                        this.sidebarView.addTarget(this);
@@ -115,20 +118,6 @@
 
                         delete this.mainView;
                         delete this.sidebarView;
-                    },
-
-                    render: function () {
-//                        var content = Y.one(Y.config.doc.createDocumentFragment());
-//
-//                        content.append(this.mainView.render().get('container'));
-//                        content.append(this.sidebarView.render().get('container'));
-//
-//                        this.get('container').setHTML(content);
-
-                        this.mainView.render().get('container');
-                        this.sidebarView.render().get('container');
-
-                        return this;
                     }
                 }, {
                     ATTRS: {
@@ -167,7 +156,10 @@
                     app.get('routes')[i].name = route.name;
                 });
 
-                app.render().showView('page', null, {render: false});
+                app
+                    .showView('page', null, {render: false})
+                    .render()
+                ;
             });
         </script>
         {% block templates %}{% endblock templates %}
