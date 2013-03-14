@@ -2,24 +2,6 @@
 
 {% block title 'MyAwesomeWebsite - Profile settings' %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {% javascripts output='js/compiled/settings_*.js'
-       'bundles/acmepoc/js/settings.js'
-    %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-{% endblock javascripts %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    {% stylesheets filter='cssrewrite' output="css/settings_*.css"
-       'bundles/acmepoc/css/settings.css'
-    %}
-        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-    {% endstylesheets %}
-{% endblock stylesheets %}
-
 {% block sidebar %}
     {{ parent() }}
 {% endblock sidebar %}
