@@ -2,51 +2,74 @@ AcmePoc.YuiConfig = {
     "version"  : "3.8.1",
     "debug": true,
     "filter": "raw",
+    "combine": false,
+    "comboBase": "/combo?",
     "groups": {
-        "modules": {
-            "base": AcmePoc.globalConfig.root + "/modules/",
-            "combine": false,
-            "comboBase": "/combo?",
-            "root": "",
+        "app": {
+            "base": AcmePoc.globalConfig.root + "/",
             "modules": {
-                "poc-io": {
-                    "requires": ["io"]
-                },
                 "poc-app": {
-                    "path"    : "../app.js",
+                    "path": "app.js",
                     "requires": [
                         "app-base",
                         "app-content",
-                        "app-transitions"
+                        "app-transitions",
+                        "json-parse",
+                        "handlebars"
                     ]
-                }
-            }
-        },
-        "views": {
-            "base": AcmePoc.globalConfig.root + "/views/",
-            "combine": false,
-            "comboBase": "/combo?",
-            "root": "",
-            "modules": {
+                },
                 "poc-header-view": {
-                    "path": "header.js"
+                    "path": "views/header.js"
                 },
                 "poc-sidebar-view": {
-                    "path": "sidebar.js"
+                    "path": "views/sidebar.js"
                 },
                 "poc-main-view": {
-                    "path": "main.js"
+                    "path": "views/main.js"
                 },
                 "poc-footer-view": {
-                    "path": "footer.js"
+                    "path": "views/footer.js"
                 },
                 "poc-page-view": {
-                    "path": "page.js",
+                    "path": "views/page.js",
                     "requires": [
                         "poc-header-view",
                         "poc-sidebar-view",
                         "poc-main-view",
                         "poc-footer-view"
+                    ]
+                }
+            }
+        },
+        "util": {
+            "base": AcmePoc.globalConfig.root + "/modules/",
+            "modules": {
+                "poc-io": {
+                    "requires": ["io"]
+                }
+            }
+        },
+        "photos": {
+            "base": AcmePoc.globalConfig.root + "/modules/poc-photos/",
+            "modules": {
+                "poc-photo": {
+                    "path": "models/photo.js",
+                    "requires": [
+                        "model"
+                    ]
+                },
+                "poc-photo-list": {
+                    "path": "models/photo-list.js",
+                    "requires": [
+                        "model-list",
+                        "poc-photo"
+                    ]
+                },
+                "poc-photo-list-view": {
+                    "path": "views/photo-list.js",
+                    "requires": [
+                        "model-list",
+                        "poc-photo"
                     ]
                 }
             }

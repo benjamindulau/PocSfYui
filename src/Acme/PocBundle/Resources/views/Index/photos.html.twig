@@ -10,18 +10,20 @@
     {% import 'AcmePocBundle::templates.html.twig' as tpl %}
     <h2>Photos</h2>
     <div class="container">
-        <button id="add-photo">Add photo</button>
         <button class="info" data-info="photo">Say Hello</button>
-        <ul class="photo-container">
-            {% for photo in photos %}
-                {{ tpl.photo_item(loop.index0, photo) }}
-            {% endfor %}
-        </ul>
+        <div id="photo-list-container">
+            <button id="add-photo">Add photo</button>
+            <ul id="photo-list">
+                {% for photo in photos %}
+                    {{ tpl.photo_item(loop.index0, photo) }}
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     <style type="text/css">
-        .photo-container {list-style: none; padding: 0; margin: 0;}
-        .photo-container li {display: inline-block; float: left; padding: 0; margin: 0 2px;}
-        .photo-container li img {width: 140px; height: 140px;}
+        #photo-list {list-style: none; padding: 0; margin: 0;}
+        #photo-list li {display: inline-block; float: left; padding: 0; margin: 0 2px;}
+        #photo-list li img {width: 140px; height: 140px;}
     </style>
 {% endblock main %}
 

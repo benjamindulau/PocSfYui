@@ -2,13 +2,7 @@
     {% set url = ('js' == engine|default('')) ? '{{url}}' : photo.url %}
     {% set title = ('js' == engine|default('')) ? '{{title}}' : photo.title %}
     {% set index = ('js' == engine|default('')) ? '{{index}}' : index %}
-    {% if  ('js' == engine|default('')) %}
-        {{ '{{#items}}' }}
-    {% endif %}
     <li data-id="{{ index }}">
         <img src="{{ url }}" alt="{{ title }}" />
     </li>
-    {% if  ('js' == engine|default('')) %}
-        {{ '{{/items}}' }}
-    {% endif %}
 {% endmacro %}

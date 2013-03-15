@@ -80,14 +80,6 @@
                     container: '#app'
                 });
 
-                // views
-                app.views = {
-                    page: {
-                        type: 'POC.Page2colLeftView',
-                        preserve: true
-                    }
-                };
-
                 // Setup routes.
                 Y.Array.each(app.namedRoutes, function (route, i) {
                     app.route(routes[route.name].path, Y.PocIo.loadContentFragments, route.callbacks);
@@ -98,6 +90,8 @@
                     update: false,
                     render: true
                 });
+
+                app.render();
             });
         </script>
         {% block templates %}{% endblock templates %}
