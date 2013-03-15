@@ -42,13 +42,13 @@ This time the browser won't reload, the request will be performed by Y.App (thro
 
 ```JSON
 {
+    "title": "MyAwesomeWebsite - Photos", // page <title>
     "fragments": {
-        "title": "MyAwesomeWebsite - Photos", // page <title>
         "sidebar": "<h2>Sidebar Menu<\/h2><!-- etc.... -->", // ..... maybe an updated menu for active page
         "main": "<h2>Photos<\/h2><div id=\"photo-list-container\"><ul id=\"photo-list\"><!-- photo items.... --></ul></div>",
-        "templates": {
-            "photo_item_tpl": "<li data-id=\"{{index}}\"><img src=\"{{url}}\" alt=\"{{title}}\" \/><\/li>" // template used later by Y.App for adding new photos
-        }
+    },
+    "templates": {
+        "photo_item_tpl": "<li data-id=\"{{index}}\"><img src=\"{{url}}\" alt=\"{{title}}\" \/><\/li>" // template used later by Y.App for adding new photos
     }
 }
 ```
