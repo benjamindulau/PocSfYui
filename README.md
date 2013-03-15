@@ -6,7 +6,7 @@ Y.App great framework from YUI.
 
 The goal is to use progressive enhancement by mixing two approaches.
 
-1. Re-using "block" oriented structure provided by Twig engine (server side)
+1 - Re-using "block" oriented structure provided by Twig engine (server side)
 
 That means that we always construct HTML on the server side for the first request, then Y.App plugs on the result and take over.
 
@@ -19,7 +19,7 @@ We've implemented a custom View handler which take the Twig template, extract bl
 On the Y.App side, we used a custom IO class for loading content, which receives these fragments and treat them.
 It also checks if "templates" are given by the server and compiles them for later use.
 
-2. After the first page load, any feature accessible on the same page will be entirely handled by Y.App.
+2 - After the first page load, any feature accessible on the same page will be entirely handled by Y.App.
 
 
 Example
