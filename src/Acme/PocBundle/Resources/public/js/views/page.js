@@ -12,12 +12,16 @@ Y.namespace('POC').BasePageView = BasePageView;
 Page2colLeftView = Y.Base.create('page2colLeftView', Y.POC.BasePageView, [], {
     initializer: function (config) {
         this.fragmentViews = {};
+        this.fragmentViews.header = new Y.POC.HeaderView();
         this.fragmentViews.sidebar = new Y.POC.SidebarView();
         this.fragmentViews.main = new Y.POC.MainView();
-        
+        this.fragmentViews.footer = new Y.POC.FooterView();
+
         //IMHO, Something is missing... 
+        this.fragmentViews.header.attachEvents();
         this.fragmentViews.sidebar.attachEvents();
         this.fragmentViews.main.attachEvents();
+        this.fragmentViews.footer.attachEvents();
     },
 
     render: function () {
