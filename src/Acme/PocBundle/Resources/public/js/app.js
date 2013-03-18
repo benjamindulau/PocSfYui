@@ -6,12 +6,6 @@ var POC = Y.POC,
 
 AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
 
-    namedRoutes: [
-        {name: 'home', callbacks: 'handleFragments'},
-        {name: 'profile', callbacks: 'handleFragments'},
-        {name: 'photos', callbacks: ['handleFragments', 'initPhotos']}
-    ],
-
     views: {
         page: {
             type: 'POC.Page2colLeftView',

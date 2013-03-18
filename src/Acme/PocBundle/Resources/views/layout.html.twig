@@ -65,14 +65,22 @@
         <script>
             YUI().use('poc-app', 'poc-page-view', 'poc-io', function (Y) {
                 var app, routes;
-
-                //TODO created by server
+                
                 routes = {
-                    home: { path: '/' },
-                    profile: { path: '/profile' },
-                    photos: { path: '/photos' }
+                    home: {
+                        path: '/',
+                        callbacks: 'handleFragments'
+                    },
+                    profile: {
+                        path: '/profile',
+                        callbacks: 'handleFragments'
+                    },
+                    photos: {
+                        path: '/photos',
+                        callbacks: ['handleFragments', 'initPhotos']
+                    }
                 };
-
+                
                 // create application
                 app = new Y.POC.App({
                     transitions: true,
@@ -81,11 +89,10 @@
                 });
 
                 // Setup routes.
-                Y.Array.each(app.namedRoutes, function (route, i) {
-                    app.route(routes[route.name].path, Y.PocIo.loadContentFragments, route.callbacks);
-                    app.get('routes')[i].name = route.name;
+                Y.Object.each(routes, function (route, name) {
+                    app.route(route.path, Y.PocIo.loadContentFragments, route.callbacks);
                 });
-
+ 
                 app.showView('page', null, {
                     update: false,
                     render: true
