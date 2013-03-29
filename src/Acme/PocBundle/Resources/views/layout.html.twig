@@ -66,18 +66,27 @@
             YUI().use('poc-app', 'poc-page-view', 'poc-io', function (Y) {
                 var app, routes;
                 
+                Y.namespace('POC').HomeView = Y.Base.create('homeView', Y.View, [], {
+                    initializer: function(config) {
+                        Y.log('init from home');
+                    },
+                });  
+                
+                Y.namespace('POC').ProfileView = Y.Base.create('profileView', Y.View, [], {
+                    initializer: function(config) {
+                        Y.log('init from profile');
+                    },
+                });  
+                
                 routes = {
                     home: {
-                        path: '/',
-                        callbacks: 'handleFragments'
+                        path: '/'
                     },
                     profile: {
-                        path: '/profile',
-                        callbacks: 'handleFragments'
+                        path: '/profile'
                     },
                     photos: {
-                        path: '/photos',
-                        callbacks: ['handleFragments', 'initPhotos']
+                        path: '/photos'
                     }
                 };
                 
@@ -85,19 +94,55 @@
                 app = new Y.POC.App({
                     transitions: true,
                     serverRouting: true,
-                    container: '#app'
+                    container: '#main',
+                    views: {
+                        home: {
+                            type: 'POC.HomeView'
+                        },
+                        profile: {
+                            type: 'POC.ProfileView'
+                        },
+                        photos: {
+                            type: 'POC.PhotoListView'
+                        },
+                    },
                 });
 
                 // Setup routes.
                 Y.Object.each(routes, function (route, name) {
-                    app.route(route.path, Y.PocIo.loadContentFragments, route.callbacks);
+                    app.route(route.path, Y.PocIo.loadContentFragments, function(req, res, next) {
+                        var currentRoute = null;
+                        var currentRouteName = null;
+                        var data = Y.JSON.parse(res.ioResponse.responseText);
+                        
+                        Y.Object.each(routes, function(route, name) {
+                            if(route.path === req.path) {
+                                currentRoute = route;
+                                currentRouteName = name;
+                                
+                                return;
+                            }
+                        });
+                        
+                        app.showContent(Y.Node.create(data.fragments.main), {
+                            view: currentRouteName
+                        });
+                        
+                        if (data.hasOwnProperty('title')) {
+                            Y.config.doc.title = data['title'];
+                        }
+                        
+                        Y.one('#sidebar').setHTML(data.fragments.sidebar);
+                    });
                 });
+                
+                /*
+                Something wrong here...
+                app.showContent(Y.one('#content'), {
+                    view: 'home'
+                });
+                */
  
-                app.showView('page', null, {
-                    update: false,
-                    render: true
-                });
-
                 app.render();
             });
         </script>

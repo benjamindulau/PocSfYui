@@ -5,46 +5,6 @@ var POC = Y.POC,
     Templates = Y.namespace('POC').Templates = {};
 
 AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
-
-    views: {
-        page: {
-            type: 'POC.Page2colLeftView',
-            preserve: true
-        }
-    },
-
-    handleFragments: function(req, res, next) {
-        //data should be object with this structure
-        //data.fragments[':id'] = htmlContent
-        var data = Y.JSON.parse(res.ioResponse.responseText);
-
-        if (data.hasOwnProperty('title')) {
-            Y.config.doc.title = data['title'];
-        }
-
-        if (data.hasOwnProperty('templates')) {
-            for (var tplName in data['templates']) {
-                if (data['templates'].hasOwnProperty(tplName)) {
-                    if (!Templates.hasOwnProperty(tplName)) {
-                        // do not recompile the same template again
-                        Templates[tplName] = Y.Handlebars.compile(data['templates'][tplName]);
-                    }
-                }
-            }
-        }
-
-        if (data.hasOwnProperty('fragments')) {
-            this.showView('page', {
-                fragments: data.fragments
-            }, {
-                update: true,
-                render: true
-            });
-        }
-
-        next();
-    },
-
     // photos
     initPhotos: function(req, res, next) {
         var photoList, photosHTML, fragmentViews;

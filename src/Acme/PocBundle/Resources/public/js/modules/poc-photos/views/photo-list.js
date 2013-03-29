@@ -10,8 +10,10 @@ PhotoListView = Y.Base.create('photoListView', Y.View, [], {
     initializer: function(config) {
         var photoList = this.get('modelList');
 
-        photoList.after('add', this.addPhoto, this);
-        this.listNode = this.get('container').one('ul');
+        if(photoList) {
+            photoList.after('add', this.addPhoto, this);
+            this.listNode = this.get('container').one('ul');    
+        }
     },
 
     events: {
