@@ -66,39 +66,44 @@
             YUI().use('poc-app', 'poc-page-view', 'poc-io', function (Y) {
                 var app, routes;
                 
-                routes = {
-                    home: {
-                        path: '/',
-                        callbacks: 'handleFragments'
+                Y.namespace('POC').HomeView = Y.Base.create('homeView', Y.View, [], {
+                    initializer: function(config) {
+                        Y.log('init from home');
                     },
-                    profile: {
-                        path: '/profile',
-                        callbacks: 'handleFragments'
+                });  
+                
+                Y.namespace('POC').ProfileView = Y.Base.create('profileView', Y.View, [], {
+                    initializer: function(config) {
+                        Y.log('init from profile');
                     },
-                    photos: {
-                        path: '/photos',
-                        callbacks: ['handleFragments', 'initPhotos']
-                    }
+                });
+                
+                var routesMeta = {
+                    home: {path: '/', view: 'POC.HomeView', callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']},
+                    profile: {path: '/profile', view: 'POC.ProfileView', callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']},
+                    photos: {path: '/photos', view: 'POC.PhotoListView', callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']}
                 };
+                
+                var views = {};
+                Y.Object.each(routesMeta, function(route, name) {
+                    views[name] = {type: route.view};
+                });
                 
                 // create application
                 app = new Y.POC.App({
                     transitions: true,
                     serverRouting: true,
-                    container: '#app'
+                    container: '#main',
+                    views: views
                 });
-
-                // Setup routes.
-                Y.Object.each(routes, function (route, name) {
-                    app.route(route.path, Y.PocIo.loadContentFragments, route.callbacks);
+                
+                app.routesMeta = routesMeta;
+                
+                Y.Object.each(routesMeta, function(route, name) {
+                    app.route(route.path, route.callbacks);
                 });
- 
-                app.showView('page', null, {
-                    update: false,
-                    render: true
-                });
-
-                app.render();
+                
+                app.render().dispatch();
             });
         </script>
         {% block templates %}{% endblock templates %}
