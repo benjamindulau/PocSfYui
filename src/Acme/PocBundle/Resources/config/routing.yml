@@ -9,3 +9,11 @@ acme_poc_profile:
 acme_poc_photos:
     pattern:  /photos
     defaults: { _controller: AcmePocBundle:Index:photos }
+
+acme_poc_uploader:
+    pattern:  /upload
+    defaults: { _controller: AcmePocBundle:Uploader:uploader }
+
+acme_poc_upload_post:
+    pattern:  /upload/post
+    defaults: { _controller: AcmePocBundle:Uploader:post }

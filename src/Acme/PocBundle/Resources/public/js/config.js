@@ -73,6 +73,45 @@ AcmePoc.YuiConfig = {
                     ]
                 }
             }
+        },
+        "uploader": {
+            "base": AcmePoc.globalConfig.root + "/modules/ano-uploader/",
+            "modules": {
+                "ano-uploader": {
+                    "path": "uploader.js",
+                    "requires": [
+                        "base",
+                        "ano-uploader-file",
+                        "ano-uploader-file-list",
+                        "ano-uploader-file-view",
+                        "ano-uploader-file-list-view"
+                    ]
+                },
+                "ano-uploader-file": {
+                    "path": "models/file.js",
+                    "requires": [
+                        "model"
+                    ]
+                },
+                "ano-uploader-file-list": {
+                    "path": "models/file-list.js",
+                    "requires": [
+                        "ano-uploader-file"
+                    ]
+                },
+                "ano-uploader-file-list-view": {
+                    "path": "views/file-list.js",
+                    "requires": [
+                        "model-list"
+                    ]
+                },
+                "ano-uploader-file-view": {
+                    "path": "views/file.js",
+                    "requires": [
+                        "model-list"
+                    ]
+                }
+            }
         }
     }
 };

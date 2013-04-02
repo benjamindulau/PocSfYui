@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title 'My Awesome Uploader' %}</title>
+        <style>
+            body {
+                margin:0; padding:0;
+                background-color: #F3F3F3;
+                font-family: Verdana;
+                color: #999999;
+            }
+            #uploader-app {
+                width: 800px;
+                height: 800px;
+                border: 2px dashed #6c6159;
+                margin: 0 auto;
+            }
+            #uploader-file-list .file-list {
+                list-style: none;
+            }
+            #uploader-file-list .file-list .file-item {
+                display: inline-block;
+                margin-left: 15px;
+                padding: 0;
+                font-size: 10px;
+            }
+            #uploader-file-list .file-list .file-item .file {
+                position: relative;
+                border: 2px solid #B7B7B7;
+                width: 160px; height: 160px;
+                background: #ffffff url('{{ asset('bundles/acmepoc/img/download-bg.png') }}') 50% 50% no-repeat;
+            }
+            #uploader-file-list .file-list .file-item:hover .action {
+                display: inline-block;
+            }
+            #uploader-file-list .file-list .file-item .action {
+                position: absolute;
+                display: none;
+                width: 16px;
+                height: 16px;
+                text-indent: -9999px;
+                right: 5px;
+            }
+            #uploader-file-list .file-list .file-item .action-delete {
+                top: 5px;
+                background: transparent url('{{ asset('bundles/acmepoc/img/x-mark-4-16.png') }}') no-repeat 50% 50%;
+            }
+            #uploader-file-list .file-list .file-item .action-edit {
+                bottom: 5px;
+                background: transparent url('{{ asset('bundles/acmepoc/img/edit-16.png') }}') no-repeat 50% 50%;
+            }
+            #uploader-file-list .file-list .file-item .progress-monitor {
+                position: absolute;
+                width: 150px;
+                margin-left: 6px;
+                bottom: 10px;
+            }
+            #uploader-file-list .file-list .file-item .progress-monitor .progressbar {
+                height: 10px;
+                background-color: #565656;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="uploader-app">
+            <div id="uploader-container">
+            </div>
+            <div id="uploader-file-list">
+            </div>
+        </div>
+
+        <script>
+            AcmePoc = {};
+            AcmePoc.globalConfig = {
+                root: '{{ asset('bundles/acmepoc/js') }}'
+            };
+        </script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/3.9.0/build/yui/yui-min.js"></script>
+        <script type="text/javascript" src="{{ asset('bundles/acmepoc/js/config.js') }}"></script>
+        <script>
+            YUI.applyConfig(AcmePoc.YuiConfig);
+        </script>
+        <script>
+            YUI({
+                "version"  : "3.8.1",
+                "debug": true,
+                "filter": "raw",
+                "combine": false,
+                "comboBase": "/combo?"
+            }).use('ano-uploader', 'uploader', function (Y) {
+                var anoUploader = new Y.AnoUploader.Uploader({
+                    listContainer: '#uploader-file-list',
+                    url: '{{ url('acme_poc_upload_post') }}'
+                });
+            });
+        </script>
+
+        {% raw %}
+        <script id="t-file-list" type="text/x-handlebars-template">
+            <div id="uploader-file-list">
+                <ul class="file-list">
+                </ul>
+            </div>
+        </script>
+
+        <script id="t-file" type="text/x-handlebars-template">
+                <div class="wrapper">
+                    <div class="file">
+                        <div class="thumbnail-container">
+                            <img class="thumbnail" src="{{thumbnail}}" />
+                        </div>
+                        <a href="#" title="Delete" class="action action-delete">
+                            <span>[x]</span>
+                        </a>
+                        <a href="#" title="Edit" class="action action-edit">
+                            <span>E</span>
+                        </a>
+                        <div class="progress-monitor">
+                            <div class="loading"></div>
+                            <div class="progress">
+                                <div class="progressbar" style="width: {{percentUploaded}}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metadata">
+                        <span class="filename">{{name}}</span> -
+                        <span class="size">{{size}}</span>
+                    </div>
+                </div>
+        </script>
+        {% endraw %}
+    </body>
+</html>
