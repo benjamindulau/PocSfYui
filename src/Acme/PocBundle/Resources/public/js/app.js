@@ -5,36 +5,48 @@ var POC = Y.POC,
     Templates = Y.namespace('POC').Templates = {};
 
 AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
-    // photos
-    initPhotos: function(req, res, next) {
-        var photoList, photosHTML, fragmentViews;
-
-        // Re-hydrate photo models
-        // TODO: Maybe move this to the PhotoListView initializer method ?
-        photosHTML = Y.Node.all('#photo-list li');
-        photoList = new POC.PhotoList();
-        photosHTML.each(function(photoHTML) {
-            photoList.add({
-                id: photoHTML.getAttribute('data-id'),
-                index: photoHTML.getAttribute('data-id'),
-                url: photoHTML.one('img').getAttribute('src')
-            });
+    /*
+    render: function() {
+        var routeInfo = this.getPathInfo(this.getPath());
+        Y.log('render: ' + routeInfo.view);
+        Y.log(Y.one('#main'));
+        this.showContent(Y.one('#main'), {
+            view: routeInfo.view
+        });
+    },
+    */
+    
+    getPathInfo: function(path) {
+        var routeInfo = null;
+        var routesMeta = this.routesMeta;
+        
+        Y.Object.each(routesMeta, function(item) {
+            if(item.path === path) {
+                routeInfo = item;
+                return;
+            }
+        });
+        
+        return routeInfo;
+    },
+    
+    handlePjaxLike: function(req, res, next) {
+        var routeInfo = this.getPathInfo(req.path);
+        var data = Y.JSON.parse(res.ioResponse.responseText);
+        
+        this.showContent(Y.Node.create(data.fragments.main), {
+            view: routeInfo.view
         });
 
-        // TODO: Move that away, don't know where yet ;-)
-        fragmentViews  = this.get('activeView').fragmentViews;
-        fragmentViews.photoList = new POC.PhotoListView({
-            photoTemplate: Templates['photo_item_tpl'],
-            modelList: photoList
-        });
-        fragmentViews.photoList.attachEvents();
+        if (data.hasOwnProperty('title')) {
+            Y.config.doc.title = data['title'];
+        }
 
-        next();
+        Y.one('#sidebar').setHTML(data.fragments.sidebar);
     }
-
 }, {
     ATTRS: {
-
+        
     }
 });
 
@@ -46,6 +58,7 @@ Y.namespace('POC').App = AcmePoc;
         'app-content',
         'app-transitions',
         'poc-photo-list',
+        'poc-io',
         'poc-photo',
         'poc-photo-list-view',
         'json-parse',

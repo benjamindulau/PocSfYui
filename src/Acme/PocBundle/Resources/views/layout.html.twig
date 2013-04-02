@@ -76,74 +76,34 @@
                     initializer: function(config) {
                         Y.log('init from profile');
                     },
-                });  
+                });
                 
-                routes = {
-                    home: {
-                        path: '/'
-                    },
-                    profile: {
-                        path: '/profile'
-                    },
-                    photos: {
-                        path: '/photos'
-                    }
+                var routesMeta = {
+                    home: {path: '/PocSfYui/', view: 'POC.HomeView', callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']},
+                    profile: {path: '/PocSfYui/profile', view: 'POC.ProfileView', callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']},
+                    photos: {path: '/PocSfYui/photos', view: 'POC.PhotoListView', callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']}
                 };
+                
+                var views = {};
+                Y.Object.each(routesMeta, function(route, name) {
+                    views[name] = {type: route.view};
+                });
                 
                 // create application
                 app = new Y.POC.App({
                     transitions: true,
                     serverRouting: true,
                     container: '#main',
-                    views: {
-                        home: {
-                            type: 'POC.HomeView'
-                        },
-                        profile: {
-                            type: 'POC.ProfileView'
-                        },
-                        photos: {
-                            type: 'POC.PhotoListView'
-                        },
-                    },
-                });
-
-                // Setup routes.
-                Y.Object.each(routes, function (route, name) {
-                    app.route(route.path, Y.PocIo.loadContentFragments, function(req, res, next) {
-                        var currentRoute = null;
-                        var currentRouteName = null;
-                        var data = Y.JSON.parse(res.ioResponse.responseText);
-                        
-                        Y.Object.each(routes, function(route, name) {
-                            if(route.path === req.path) {
-                                currentRoute = route;
-                                currentRouteName = name;
-                                
-                                return;
-                            }
-                        });
-                        
-                        app.showContent(Y.Node.create(data.fragments.main), {
-                            view: currentRouteName
-                        });
-                        
-                        if (data.hasOwnProperty('title')) {
-                            Y.config.doc.title = data['title'];
-                        }
-                        
-                        Y.one('#sidebar').setHTML(data.fragments.sidebar);
-                    });
+                    views: views
                 });
                 
-                /*
-                Something wrong here...
-                app.showContent(Y.one('#content'), {
-                    view: 'home'
+                app.routesMeta = routesMeta;
+                
+                Y.Object.each(routesMeta, function(route, name) {
+                    app.route(route.path, route.callbacks);
                 });
-                */
- 
-                app.render();
+                
+                app.render().dispatch();
             });
         </script>
         {% block templates %}{% endblock templates %}

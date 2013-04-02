@@ -15,6 +15,33 @@ PhotoListView = Y.Base.create('photoListView', Y.View, [], {
             this.listNode = this.get('container').one('ul');    
         }
     },
+    
+    // photos
+    initPhotos: function(req, res, next) {
+        var photoList, photosHTML, fragmentViews;
+
+        // Re-hydrate photo models
+        // TODO: Maybe move this to the PhotoListView initializer method ?
+        photosHTML = Y.Node.all('#photo-list li');
+        photoList = new POC.PhotoList();
+        photosHTML.each(function(photoHTML) {
+            photoList.add({
+                id: photoHTML.getAttribute('data-id'),
+                index: photoHTML.getAttribute('data-id'),
+                url: photoHTML.one('img').getAttribute('src')
+            });
+        });
+
+        // TODO: Move that away, don't know where yet ;-)
+        fragmentViews  = this.get('activeView').fragmentViews;
+        fragmentViews.photoList = new POC.PhotoListView({
+            photoTemplate: Templates['photo_item_tpl'],
+            modelList: photoList
+        });
+        fragmentViews.photoList.attachEvents();
+
+        next();
+    },
 
     events: {
         '#add-photo': {click: 'addSinglePhoto'}
