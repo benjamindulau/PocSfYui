@@ -5,17 +5,6 @@ var POC = Y.POC,
     Templates = Y.namespace('POC').Templates = {};
 
 AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
-    /*
-    render: function() {
-        var routeInfo = this.getPathInfo(this.getPath());
-        Y.log('render: ' + routeInfo.view);
-        Y.log(Y.one('#main'));
-        this.showContent(Y.one('#main'), {
-            view: routeInfo.view
-        });
-    },
-    */
-    
     getPathInfo: function(path) {
         var routeInfo = null;
         var routesMeta = this.routesMeta;
@@ -57,11 +46,7 @@ Y.namespace('POC').App = AcmePoc;
         'app-base',
         'app-content',
         'app-transitions',
-        'poc-photo-list',
         'poc-io',
-        'poc-photo',
-        'poc-photo-list-view',
-        'json-parse',
-        'handlebars'
+        'json-parse'
     ]
 });
