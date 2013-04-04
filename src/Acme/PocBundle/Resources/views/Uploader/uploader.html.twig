@@ -55,7 +55,7 @@
                 position: absolute;
                 width: 150px;
                 margin-left: 6px;
-                bottom: 10px;
+                bottom: 27px;
             }
             #uploader-file-list .file-list .file-item .progress-monitor .progressbar {
                 height: 10px;
@@ -66,6 +66,8 @@
     <body>
         <div id="uploader-app">
             <div id="uploader-container">
+            </div>
+            <div id="uploader-info">
             </div>
             <div id="uploader-file-list">
             </div>
@@ -98,6 +100,11 @@
         </script>
 
         {% raw %}
+        <script id="t-upload-info" type="text/x-handlebars-template">
+            <div class="info file-count">{{totalFileCount}} Files</div>
+            <div class="info progress-overall">{{overallPercentProgress}} %</div>
+        </script>
+
         <script id="t-file-list" type="text/x-handlebars-template">
             <div id="uploader-file-list">
                 <ul class="file-list">

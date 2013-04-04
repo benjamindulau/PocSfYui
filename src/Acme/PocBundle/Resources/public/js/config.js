@@ -81,10 +81,18 @@ AcmePoc.YuiConfig = {
                     "path": "uploader.js",
                     "requires": [
                         "base",
+                        "ano-uploader-upload-info",
                         "ano-uploader-file",
                         "ano-uploader-file-list",
+                        "ano-uploader-upload-info-view",
                         "ano-uploader-file-view",
                         "ano-uploader-file-list-view"
+                    ]
+                },
+                "ano-uploader-upload-info": {
+                    "path": "models/upload-info.js",
+                    "requires": [
+                        "model"
                     ]
                 },
                 "ano-uploader-file": {
@@ -96,19 +104,29 @@ AcmePoc.YuiConfig = {
                 "ano-uploader-file-list": {
                     "path": "models/file-list.js",
                     "requires": [
-                        "ano-uploader-file"
+                        "ano-uploader-file",
+                        "model-list"
+                    ]
+                },
+                "ano-uploader-upload-info-view": {
+                    "path": "views/upload-info.js",
+                    "requires": [
+                        "handlebars",
+                        "view"
                     ]
                 },
                 "ano-uploader-file-list-view": {
                     "path": "views/file-list.js",
                     "requires": [
-                        "model-list"
+                        "handlebars",
+                        "view"
                     ]
                 },
                 "ano-uploader-file-view": {
                     "path": "views/file.js",
                     "requires": [
-                        "model-list"
+                        "handlebars",
+                        "view"
                     ]
                 }
             }
