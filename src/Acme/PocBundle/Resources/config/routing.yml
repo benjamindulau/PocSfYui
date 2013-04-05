@@ -17,3 +17,11 @@ acme_poc_uploader:
 acme_poc_upload_post:
     pattern:  /upload/post
     defaults: { _controller: AcmePocBundle:Uploader:post }
+    
+acme_poc_form:
+    pattern:  /form
+    defaults: { _controller: AcmePocBundle:Form:index }
+    
+acme_poc_form_validate:
+    pattern:  /ajax/validate/photo
+    defaults: { _controller: AcmePocBundle:Form:validate, _format: json }

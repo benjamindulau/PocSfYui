@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title 'Form POC' %}</title>
+    </head>
+    <body>
+        <form id="foo" action="{{ path('acme_poc_form') }}" method="post" {{ form_enctype(form) }}>
+            {{ form_widget(form) }}
+            <input type="submit" />
+        </form>
+        <div id="message"></div>
+
+
+        <script>
+            AcmePoc = {};
+            AcmePoc.globalConfig = {
+                root: '{{ asset('bundles/acmepoc/js') }}'
+            };
+            
+            ValidationUrl = '{{ url('acme_poc_form_validate') }}';
+        </script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/3.8.1/build/yui/yui-min.js"></script>
+        <script type="text/javascript" src="{{ asset('bundles/acmepoc/js/config.js') }}"></script>
+        <script>
+            YUI.applyConfig(AcmePoc.YuiConfig);
+        </script>
+        <script>
+            YUI().use('node', 'event-focus', 'io-base', function (Y) {
+                Y.Node.one('#foo').on('blur', function (e) {
+                    var target = e.target;
+                    var value = target.get('value');
+                    var name = target.get('name');
+                    var field = name.substring(name.indexOf('[') + 1, name.indexOf(']'));
+                    
+                    Y.io(ValidationUrl, {
+                        on: {
+                            complete: function(id, e) {
+                                var responseData = JSON.parse(e.responseText);
+                                Y.log(responseData);
+                                
+                                if('success' === responseData.status) {
+                                    target.setStyle('background-color', '#8AE429');
+                                }
+                                else {
+                                    target.setStyle('background-color', '#FF4E50');
+                                    Y.Node.one('#message').setHTML(responseData.message);
+                                }
+                            }
+                        },
+                        data: {
+                            field: field,
+                            value: value
+                        },
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
