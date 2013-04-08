@@ -24,7 +24,6 @@ YUI.add('poc-plugin-form-validation', function(Y) {
                 on: {
                     complete: function(id, e) {
                         var responseData = JSON.parse(e.responseText);
-                        Y.log(responseData);
 
                         if('success' === responseData.status) {
                             target.setStyle('background', '#8AE429');

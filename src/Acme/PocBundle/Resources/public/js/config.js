@@ -53,7 +53,7 @@ AcmePoc.YuiConfig = {
             "base": AcmePoc.globalConfig.root + "/plugins/",
             "modules": {
                 "poc-plugin-form-validation": {
-                    "path": "poc-plugin-form-validation/poc-plugin-form-validation.js"
+                    "path": "poc-plugin-form-validation.js"
                 }
             }
         },
