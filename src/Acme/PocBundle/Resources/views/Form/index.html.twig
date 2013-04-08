@@ -18,8 +18,7 @@
             AcmePoc.globalConfig = {
                 root: '{{ asset('bundles/acmepoc/js') }}'
             };
-            
-            ValidationUrl = '{{ url('acme_poc_form_validate') }}';
+            AcmePoc.validationUrl = '{{ url('acme_poc_form_validate') }}';
         </script>
         <script type="text/javascript" src="http://yui.yahooapis.com/3.8.1/build/yui/yui-min.js"></script>
         <script type="text/javascript" src="{{ asset('bundles/acmepoc/js/config.js') }}"></script>
@@ -27,37 +26,12 @@
             YUI.applyConfig(AcmePoc.YuiConfig);
         </script>
         <script>
-            YUI().use('node', 'event-focus', 'io-base', function (Y) {
-                Y.Node.one('#foo').on('blur', function (e) {
-                    var target = e.target;
-                    var value = target.get('value');
-                    var name = target.get('name');
-                    var field = name.substring(name.indexOf('[') + 1, name.indexOf(']'));
-                    
-                    Y.io(ValidationUrl, {
-                        on: {
-                            complete: function(id, e) {
-                                var responseData = JSON.parse(e.responseText);
-                                Y.log(responseData);
-                                
-                                if('success' === responseData.status) {
-                                    target.setStyle('background-color', '#8AE429');
-                                }
-                                else {
-                                    target.setStyle('background-color', '#FF4E50');
-                                    Y.Node.one('#message').setHTML(responseData.message);
-                                }
-                            }
-                        },
-                        data: {
-                            field: field,
-                            value: value
-                        },
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    });
-                });
+            YUI().use('node', 'poc-plugin-form-validation', function (Y) {
+                var FormValidationPlugin = Y.namespace("Plugin.FormValidation").FormValidationPlugin;
+                var fooNode = Y.Node.one('#foo');
+                
+                fooNode.plug(FormValidationPlugin);
+                fooNode.validation.set('url', AcmePoc.validationUrl);
             });
         </script>
     </body>

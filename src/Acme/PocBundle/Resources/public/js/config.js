@@ -49,6 +49,14 @@ AcmePoc.YuiConfig = {
                 }
             }
         },
+        "plugins": {
+            "base": AcmePoc.globalConfig.root + "/plugins/",
+            "modules": {
+                "poc-plugin-form-validation": {
+                    "path": "poc-plugin-form-validation/poc-plugin-form-validation.js"
+                }
+            }
+        },
         "photos": {
             "base": AcmePoc.globalConfig.root + "/modules/poc-photos/",
             "modules": {
