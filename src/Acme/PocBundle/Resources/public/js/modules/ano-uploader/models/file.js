@@ -14,7 +14,9 @@ File = Y.Base.create('file', Y.Model, [], {
         type: {value: null},
         bytesUploaded: {value: 0},
         percentUploaded: {value: 0},
-        thumbnail: {value: null}
+        thumbnail: {value: null},
+        selected: {value: false},
+        position: {value: 0}
     }
 });
 

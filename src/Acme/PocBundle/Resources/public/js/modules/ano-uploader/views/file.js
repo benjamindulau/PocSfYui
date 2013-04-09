@@ -31,6 +31,22 @@ FileView = Y.Base.create('fileView', Y.View, [], {
         this.get('container').setHTML(this.template(file));
 
         return this;
+    },
+
+    createDrag: function() {
+        var container = this.get('container');
+
+        //Plugin the Drag plugin
+        container.plug(Y.Plugin.Drag, {
+            offsetNode: false
+        });
+
+        //Plug the Proxy into the DD object
+        container.dd.plug(Y.Plugin.DDProxy, {
+            resizeFrame: false,
+            moveOnEnd: false,
+            borderStyle: 'none'
+        });
     }
 
 });
@@ -39,6 +55,8 @@ Y.namespace('AnoUploader').FileView = FileView;
 
 }, '0.0.1', {
     requires: [
+        'dd',
+        'dd-plugin',
         'handlebars',
         'view'
     ]

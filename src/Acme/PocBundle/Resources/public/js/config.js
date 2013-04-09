@@ -127,14 +127,17 @@ AcmePoc.YuiConfig = {
                     "path": "views/file-list.js",
                     "requires": [
                         "handlebars",
-                        "view"
+                        "view",
+                        "dd"
                     ]
                 },
                 "ano-uploader-file-view": {
                     "path": "views/file.js",
                     "requires": [
                         "handlebars",
-                        "view"
+                        "view",
+                        "dd",
+                        "dd-plugin"
                     ]
                 }
             }

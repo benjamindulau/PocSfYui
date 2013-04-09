@@ -56,6 +56,7 @@ YUI.add('ano-uploader', function (Y) {
         onAddFile: function(e) {
             var incFiles = e.fileList,
                 self = this,
+                nextFilePos = this.fileList.size(),
                 files = [];
 
             Y.Array.each(incFiles, function(f) {
@@ -63,8 +64,11 @@ YUI.add('ano-uploader', function (Y) {
                     fileId: f.get('id'),
                     name: f.get('name'),
                     size: f.get('size'),
-                    type: f.get('type')
+                    type: f.get('type'),
+                    position: nextFilePos
                 }));
+
+                nextFilePos++;
 
                 self._fileIdMap[f.get('id')] = f;
             });
@@ -98,8 +102,10 @@ YUI.add('ano-uploader', function (Y) {
         },
 
         onUploadOverallProgress: function(e) {
-            this.uploadInfo.set('bytesTotal', e.bytesTotal);
-            this.uploadInfo.set('bytesLoaded', e.bytesLoaded);
+            this.uploadInfo.setAttrs({
+                bytesTotal: e.bytesTotal,
+                bytesLoaded: e.bytesLoaded
+            });
         },
 
         // private methods

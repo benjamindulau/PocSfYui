@@ -61,6 +61,9 @@
                 height: 10px;
                 background-color: #565656;
             }
+            #uploader-file-list .file-list .file-item.selected .file {
+                border-color: #AA3333;
+            }
         </style>
     </head>
     <body>
@@ -113,29 +116,29 @@
         </script>
 
         <script id="t-file" type="text/x-handlebars-template">
-                <div class="wrapper">
-                    <div class="file">
-                        <div class="thumbnail-container">
-                            <img class="thumbnail" src="{{thumbnail}}" />
-                        </div>
-                        <a href="#" title="Delete" class="action action-delete">
-                            <span>[x]</span>
-                        </a>
-                        <a href="#" title="Edit" class="action action-edit">
-                            <span>E</span>
-                        </a>
-                        <div class="progress-monitor">
-                            <div class="loading"></div>
-                            <div class="progress">
-                                <div class="progressbar" style="width: {{percentUploaded}}%;"></div>
-                            </div>
-                        </div>
+            <div class="wrapper">
+                <div class="file">
+                    <div class="thumbnail-container">
+                        <img class="thumbnail" src="{{thumbnail}}" />
                     </div>
-                    <div class="metadata">
-                        <span class="filename">{{name}}</span> -
-                        <span class="size">{{size}}</span>
+                    <a href="#" title="Delete" class="action action-delete">
+                        <span>[x]</span>
+                    </a>
+                    <a href="#" title="Edit" class="action action-edit">
+                        <span>E</span>
+                    </a>
+                    <div class="progress-monitor">
+                        <div class="loading"></div>
+                        <div class="progress">
+                            <div class="progressbar" style="width: {{percentUploaded}}%;"></div>
+                        </div>
                     </div>
                 </div>
+                <div class="metadata">
+                    <span class="filename">{{name}}</span> -
+                    <span class="size">{{size}}</span>
+                </div>
+            </div>
         </script>
         {% endraw %}
     </body>
