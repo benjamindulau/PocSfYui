@@ -62,13 +62,9 @@ FileListView = Y.Base.create('fileListView', Y.View, [], {
 
         var content = Y.one(Y.config.doc.createDocumentFragment()),
             file = e.model,
-            fileView,
-            container = this.createFileViewContainer(file);
+            fileView;
 
-        fileView = new Y.AnoUploader.FileView({
-            model: file,
-            container: this.createFileViewContainer(file)
-        });
+        fileView = new Y.AnoUploader.FileView({ model: file });
         fileView.addTarget(this);
         fileView.createDrag();
         this.fileViews.push(fileView);
@@ -107,7 +103,6 @@ FileListView = Y.Base.create('fileListView', Y.View, [], {
         // TODO: In the end this should go to some sort of separated "selectable" widget
 
         file.set('selected', true);
-        this.listNode.one('.file-item[data-id="' + file.get('clientId') + '"]').addClass('selected');
     },
 
     _initSelectable: function() {

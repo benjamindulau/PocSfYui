@@ -25,10 +25,26 @@ FileView = Y.Base.create('fileView', Y.View, [], {
         this.after('modelDestroy', this.destroy, this);
     },
 
-    render: function() {
-        var file = this.get('model').toJSON();
+    create: function() {
+        var file = this.get('model');
 
-        this.get('container').setHTML(this.template(file));
+        var container = '<li class="file-item"'
+        + ' data-id="' + file.get('clientId') + '"'
+        + ' data-file-id="' + file.get('fileId') + '"'
+        + ' data-size="' + file.get('size') + '"'
+        + ' data-name="' + file.get('name') + '"'
+        + ' data-position="' + file.get('position')+ '"></li>';
+
+        return Y.Node.create(container);
+    },
+
+    render: function() {
+        var file = this.get('model'),
+            container = this.get('container');
+
+        file.get('selected') ? container.addClass('selected') : container.removeClass('selected');
+
+        container.setHTML(this.template(file.toJSON()));
 
         return this;
     },
