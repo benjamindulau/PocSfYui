@@ -64,24 +64,26 @@
         </script>
         <script>
             YUI().use('poc-app', 'poc-page-view', 'poc-io', function (Y) {
-                var app, routes;
+                var app = null
+                    , routes = null
+                    , POC = Y.namespace('POC');
                 
-                Y.namespace('POC').HomeView = Y.Base.create('homeView', Y.View, [], {
+                POC.HomeView = Y.Base.create('homeView', Y.View, [], {
                     initializer: function(config) {
                         Y.log('init from home');
-                    },
-                });  
+                    }
+                });
                 
-                Y.namespace('POC').ProfileView = Y.Base.create('profileView', Y.View, [], {
+                POC.ProfileView = Y.Base.create('profileView', Y.View, [], {
                     initializer: function(config) {
                         Y.log('init from profile');
-                    },
+                    }
                 });
                 
                 var routesMeta = {
-                    home: {path: '/', view: 'POC.HomeView', callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']},
-                    profile: {path: '/profile', view: 'POC.ProfileView', callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']},
-                    photos: {path: '/photos', view: 'POC.PhotoListView', callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']}
+                    home: {path: '/', view: POC.HomeView, callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']},
+                    profile: {path: '/profile', view: POC.ProfileView, callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']},
+                    photos: {path: '/photos', view: POC.PhotoListView, callbacks: [Y.PocIo.loadContentFragments, 'handlePjaxLike']}
                 };
                 
                 var views = {};

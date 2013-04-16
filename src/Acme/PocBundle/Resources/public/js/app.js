@@ -9,9 +9,10 @@ AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
         var routeInfo = null;
         var routesMeta = this.routesMeta;
         
-        Y.Object.each(routesMeta, function(item) {
+        Y.Object.each(routesMeta, function(item, key) {
             if(item.path === path) {
                 routeInfo = item;
+                routeInfo.name = key;
                 return;
             }
         });
@@ -24,9 +25,9 @@ AcmePoc = Y.Base.create('acmePoc', Y.App, [], {
         var data = Y.JSON.parse(res.ioResponse.responseText);
         
         this.showContent(Y.Node.create(data.fragments.main), {
-            view: routeInfo.view
+            view: routeInfo.name
         });
-
+        
         if (data.hasOwnProperty('title')) {
             Y.config.doc.title = data['title'];
         }
