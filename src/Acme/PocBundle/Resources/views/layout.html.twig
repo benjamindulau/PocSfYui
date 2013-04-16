@@ -105,7 +105,12 @@
                     app.route(route.path, route.callbacks);
                 });
                 
-                app.render().dispatch();
+                //not really sure about that ...
+                app.showContent(Y.one('#main').get('children'), {
+                    view: app.getPathInfo(app.getPath()).name
+                });
+                
+                app.render();
             });
         </script>
         {% block templates %}{% endblock templates %}
